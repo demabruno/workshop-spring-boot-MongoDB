@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import br.com.brunodemartini.workshopMongo.Repository.UserRepository;
 import br.com.brunodemartini.workshopMongo.Service.Exception.ObjectNotFoundException;
 import br.com.brunodemartini.workshopMongo.domain.User;
+import br.com.brunodemartini.workshopMongo.dto.UserDto;
 
 @Service
 public class UserService {
@@ -25,6 +26,14 @@ public class UserService {
 	public User findById(String id) {
 		Optional<User> optionalUser = userRepository.findById(id);
 		return optionalUser.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
+	}
+	
+	public User insert(User user) {
+		return userRepository.insert(user);
+	}
+	
+	public User fromDto(UserDto userDto) {
+		return new User(userDto.getId(), userDto.getName(), userDto.getEmail());
 	}
 
 }
