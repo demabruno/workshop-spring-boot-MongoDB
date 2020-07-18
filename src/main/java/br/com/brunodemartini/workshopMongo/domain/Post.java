@@ -1,12 +1,15 @@
 package br.com.brunodemartini.workshopMongo.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import br.com.brunodemartini.workshopMongo.dto.AuthorDto;
+import br.com.brunodemartini.workshopMongo.dto.CommentDto;
 @Document
 public class Post implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -17,6 +20,8 @@ public class Post implements Serializable{
 	private String title;
 	private String body;
 	private AuthorDto author;
+	
+	private List<CommentDto> lstCommentDto = new ArrayList<>();
 	
 	public Post() {}
 
@@ -66,6 +71,14 @@ public class Post implements Serializable{
 
 	public void setAuthor(AuthorDto author) {
 		this.author = author;
+	}
+
+	public List<CommentDto> getLstCommentDto() {
+		return lstCommentDto;
+	}
+
+	public void setLstCommentDto(List<CommentDto> lstCommentDto) {
+		this.lstCommentDto = lstCommentDto;
 	}
 
 	@Override

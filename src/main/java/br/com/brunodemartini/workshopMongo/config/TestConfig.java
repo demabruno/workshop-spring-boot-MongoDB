@@ -14,6 +14,7 @@ import br.com.brunodemartini.workshopMongo.Repository.UserRepository;
 import br.com.brunodemartini.workshopMongo.domain.Post;
 import br.com.brunodemartini.workshopMongo.domain.User;
 import br.com.brunodemartini.workshopMongo.dto.AuthorDto;
+import br.com.brunodemartini.workshopMongo.dto.CommentDto;
 
                     //CommandLineRunner: Interface que é executada na inicializacao do projeto.
 @Configuration      //Marca a classe como sendo uma classe de configuração
@@ -44,6 +45,13 @@ public class TestConfig implements CommandLineRunner{
 		Post post1 = new Post(null, sdf.parse("18/03/2018"), "Partiu Viagem", "Vou viajar para SP!", new AuthorDto(maria));
 		Post post2 = new Post(null, sdf.parse("21/03/2018"), "Bom dia", "Acordei feliz hoje", new AuthorDto(maria));
 	
+		CommentDto cdt1 = new CommentDto("Boa Viagem Mano!", sdf.parse("21/03/2020"), new AuthorDto(alex));
+		CommentDto cdt2 = new CommentDto("Aprovetie!", sdf.parse("28/03/2020"), new AuthorDto(bob));
+		CommentDto cdt3 = new CommentDto("Tenha um ótimo dia!", sdf.parse("23/03/2020"), new AuthorDto(alex));
+		
+		post1.getLstCommentDto().addAll(Arrays.asList(cdt1, cdt2));
+		post2.getLstCommentDto().addAll(Arrays.asList(cdt3));
+		
 		postRepository.saveAll(Arrays.asList(post1, post2));
 		
 		maria.getListaPosts().addAll(Arrays.asList(post1, post2));
