@@ -1,8 +1,11 @@
 package br.com.brunodemartini.workshopMongo.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "user")
@@ -15,6 +18,11 @@ public class User implements Serializable {
 	private String id;
 	private String name;
 	private String email;
+	
+	//Só carrega os posts se eles forem explicitamente acessados. A falta do lazy=true implica
+	//   que sejam carregaos todos os posts de um usuário na carga os usuários.
+	@DBRef(lazy = true) 
+	private List<Post> listaPosts = new ArrayList<>();
 	
 	public User() {	}	
 	
@@ -46,6 +54,14 @@ public class User implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public List<Post> getListaPosts() {
+		return listaPosts;
+	}
+
+	public void setListaPosts(List<Post> listaPosts) {
+		this.listaPosts = listaPosts;
 	}
 
 	@Override

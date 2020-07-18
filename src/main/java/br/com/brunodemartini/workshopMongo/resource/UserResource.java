@@ -6,9 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.brunodemartini.workshopMongo.Service.UserService;
+import br.com.brunodemartini.workshopMongo.domain.Post;
 import br.com.brunodemartini.workshopMongo.domain.User;
 import br.com.brunodemartini.workshopMongo.dto.UserDto;
 
@@ -68,5 +67,12 @@ public class UserResource {
 		obj.setId(id);
 		obj= userService.update(obj);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@RequestMapping(value = "/{id}/posts", method = RequestMethod.GET)
+	public ResponseEntity<List<Post>> findPosts(@PathVariable String id){
+		User user = userService.findById(id);
+			
+		return ResponseEntity.ok().body(user.getListaPosts());
 	}
 }
