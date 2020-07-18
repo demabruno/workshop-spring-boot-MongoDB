@@ -13,6 +13,7 @@ import br.com.brunodemartini.workshopMongo.Repository.PostRepository;
 import br.com.brunodemartini.workshopMongo.Repository.UserRepository;
 import br.com.brunodemartini.workshopMongo.domain.Post;
 import br.com.brunodemartini.workshopMongo.domain.User;
+import br.com.brunodemartini.workshopMongo.dto.AuthorDto;
 
                     //CommandLineRunner: Interface que é executada na inicializacao do projeto.
 @Configuration      //Marca a classe como sendo uma classe de configuração
@@ -31,6 +32,7 @@ public class TestConfig implements CommandLineRunner{
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
 		
+		postRepository.deleteAll();
 		userRepository.deleteAll();
 		
 		User maria = new User(null, "Maria Brown", "maria@gmail.com");
@@ -39,8 +41,8 @@ public class TestConfig implements CommandLineRunner{
 		
 		userRepository.saveAll(Arrays.asList(maria, alex, bob));
 		
-		Post post1 = new Post(null, sdf.parse("18/03/2018"), "Partiu Viagem", "Vou viajar para SP!", maria);
-		Post post2 = new Post(null, sdf.parse("21/03/2018"), "Bom dia", "Acordei feliz hoje", maria);
+		Post post1 = new Post(null, sdf.parse("18/03/2018"), "Partiu Viagem", "Vou viajar para SP!", new AuthorDto(maria));
+		Post post2 = new Post(null, sdf.parse("21/03/2018"), "Bom dia", "Acordei feliz hoje", new AuthorDto(maria));
 	
 		postRepository.saveAll(Arrays.asList(post1, post2));
 	}
