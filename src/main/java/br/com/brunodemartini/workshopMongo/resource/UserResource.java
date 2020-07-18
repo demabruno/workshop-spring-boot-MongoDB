@@ -6,7 +6,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -50,5 +52,21 @@ public class UserResource {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();
 		//created: Retorna o código 201, que é o código HTTP quando tu cria um novo recurso.
 		return ResponseEntity.created(uri).build();
+	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable String id){
+		userService.delete(id); 
+		
+		//noContent(): Retorna o código 204, de deleção
+		return ResponseEntity.noContent().build(); 
+	}
+	
+	@RequestMapping(value ="/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Void> update(@RequestBody UserDto userDto, @PathVariable String id){
+		User obj = userService.fromDto(userDto);
+		obj.setId(id);
+		obj= userService.update(obj);
+		return ResponseEntity.noContent().build();
 	}
 }
