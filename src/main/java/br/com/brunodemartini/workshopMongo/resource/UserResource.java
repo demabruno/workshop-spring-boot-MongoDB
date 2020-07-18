@@ -1,8 +1,7 @@
 package br.com.brunodemartini.workshopMongo.resource;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.brunodemartini.workshopMongo.Service.UserService;
 import br.com.brunodemartini.workshopMongo.domain.User;
+import br.com.brunodemartini.workshopMongo.dto.UserDto;
 
 @RestController
 @RequestMapping(value = "/users")
@@ -23,8 +23,10 @@ public class UserResource {
 	public UserResource() {	}
 
 	@RequestMapping(method = RequestMethod.GET) //--> Indica que será consumido por um método GET
-	public ResponseEntity<List<User>> findAll(){
+	public ResponseEntity<List<UserDto>> findAll(){
 		List<User> listaUsuarios = userService.findAll();
-		return ResponseEntity.ok().body(listaUsuarios);
+		//Expressão lambda que  varre a lista de Usuarios e converte para uma lista de usuários DTO
+		List<UserDto> listaUsuariosDto = listaUsuarios.stream().map(x -> new UserDto(x)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listaUsuariosDto);
 	}
 }
